@@ -1,5 +1,17 @@
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
 import numpy as np
 import time
+
+#style.use('fivethirtyeight')
+fig = plt.figure()
+graph1 = fig.add_subplot(1,1,1)
+plt.xlabel("Iterations")
+plt.ylabel("Error")
+
+error_lst = []
+
 
 
 def sigmoid(x,derivative=False):
@@ -7,15 +19,14 @@ def sigmoid(x,derivative=False):
         return x*(1-x)
     return 1/(1+ np.exp(-x))
 
-
+#data
 training_inputs = np.array([[1,0,1],
                             [1,1,1],
                             [1,0,1],
                             [1,0,1],
                             [0,1,0],
                             [1,1,1],
-                            [1,0,0]])
-
+                            [1,0,0],])
 training_outputs = np.array([[0,1,0,0,1,1,1]]).T
 
 
@@ -25,7 +36,7 @@ weights = 2*np.random.random((3,1))
 print('Initializing weights')
 print(weights)
 print("Starting traing process\n")
-time.sleep(1)
+
 
 
 #training
@@ -37,29 +48,33 @@ for i in range(20000):
 
     error = training_outputs - output
 
-    if i%100 == 0:
-        print(error.flatten())
-        time.sleep(0.04)
-
     adjustments = error * sigmoid(output,derivative=True)
 
+    if i%100 == 0:
+        graph1.scatter(i,error[1],color='b')
+        #plt.pause(0.02)
+        print(error.flatten())
+
     weights+=np.dot(input_layer.T,adjustments)
-time.sleep(2)
+#plt.show() 
+
+
 print("===========================================")
 print("weights after training")
-time.sleep(2)
+
 print(weights,"\n")
-time.sleep(2)
+
 print("===========================================")
 print("output after training\n")
 
 print("Actual output",training_outputs.flatten(),"\n")
 print("Output by perceptron: ",output.flatten())
 print("\n")
-time.sleep(2)
-new_situation = np.array([[1,1,0]])
+
+new_situation = np.array([[1,0,1]])
 print("new situation",new_situation)
 expected_output = sigmoid(np.dot(new_situation,weights))
-print("Actual output of new situation: [1]")
+print("Actual output of new situation: ")
 print("predicted output of new situation:",expected_output)
 
+#graph1.plot(error_lst)
