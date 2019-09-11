@@ -52,11 +52,11 @@ for i in range(20000):
 
     if i%100 == 0:
         graph1.scatter(i,error[1],color='b')
-        #plt.pause(0.02)
+        plt.pause(0.02)
         print(error.flatten())
 
     weights+=np.dot(input_layer.T,adjustments)
-#plt.show() 
+plt.show() 
 
 
 print("===========================================")
